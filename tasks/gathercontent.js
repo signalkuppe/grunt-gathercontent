@@ -18,16 +18,13 @@ var fs= require('fs'),
 
 module.exports = function (grunt) {
 
-
-  // default options
-  grunt.option.init({ 
-      jsonDest: 'data/json',
-      fileDest: 'data/files',
-      downloadFiles: true,
-      pageDir: true
-  });
-
-  var config= grunt.config('gathercontent'),
+  var defaultOptions = {
+        jsonDest: 'data/json',
+        fileDest: 'data/files',
+        downloadFiles: true,
+        pageDir: true
+      },
+      config= _.extend(defaultOptions,grunt.config('gathercontent')),
       apiUrl = 'https://'+config.accountName+'.gathercontent.com/api/0.3/',
       options =
       {
@@ -86,7 +83,6 @@ module.exports = function (grunt) {
           };
           //
       };
-
 
   // get logged in user
   grunt.registerTask('gathercontent-get_me', 'get logged in user', function () {
@@ -281,9 +277,9 @@ module.exports = function (grunt) {
       if(config.downloadFiles)
       {
 
-        if (!fs.existsSync(config.fileDest) && !config.pageDir){
+        if (!fs.existsSync(config.fileDest) && !config.pageDir)
             fs.mkdirSync(config.fileDest);
-        }
+          
         var i = 0;
         async.eachSeries(
           files,
