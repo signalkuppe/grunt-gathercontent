@@ -92,4 +92,4 @@ grunt.initConfig({
 
 
 ## License
-Copyright (c) 2014 signalkuppe. Licensed under the MIT license.
+Copyright (c) 2014 [signalkuppe](http://www.signalkuppe.com). Licensed under the MIT license.
