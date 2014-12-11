@@ -12,7 +12,8 @@ var fs= require('fs'),
     request = require('request'),
     path= require('path'),
     _= require('underscore'),
-    async = require('async');
+    async = require('async'),
+    mkdirp = require('mkdirp'),
     files = [];
 
 module.exports = function (grunt) {
@@ -282,7 +283,6 @@ module.exports = function (grunt) {
 
         if (!fs.existsSync(config.fileDest) && !config.pageDir){
             fs.mkdirSync(config.fileDest);
-
         }
         var i = 0;
         async.eachSeries(
@@ -290,16 +290,24 @@ module.exports = function (grunt) {
           function (item,done)
           {
             grunt.log.write('Downloading',item.original_filename+'\n');
-
+            var _requestFile = function (dest)
+            {
+              request('https://gathercontent.s3.amazonaws.com/'+item.filename).pipe(fs.createWriteStream(dest+'/'+item.original_filename))
+            }
             if(config.pageDir)
             {
-              var pageDirectory = config.fileDest+'/'+item.page_id;
-              if (!fs.existsSync(pageDirectory)){
-                  fs.mkdirSync(pageDirectory);
-              }
-              dest = pageDirectory;
+              var pageDirectory = dest+'/'+item.page_id;
+              mkdirp(pageDirectory, function (err) {
+                  if (err)
+                    throw err;
+                  else
+                    _requestFile(pageDirectory);
+              });
             }
-            request('https://gathercontent.s3.amazonaws.com/'+item.filename).pipe(fs.createWriteStream(dest+'/'+item.original_filename))
+            else
+            {
+              _requestFile(dest);
+            }  
             i++;
             done();
           },
