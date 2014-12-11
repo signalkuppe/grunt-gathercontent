@@ -84,11 +84,7 @@ module.exports = function (grunt) {
             grunt.log.ok('Generated '+output);
           };
           //
-      },
-      _downloadImages = function (images)
-      {
-
-      }
+      };
 
 
   // get logged in user
