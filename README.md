@@ -2,6 +2,10 @@
 
 > get content and files from [Gathercontent](https://gathercontent.com/)
 
+## Why
+Gathercontent is a great service to write and store content.
+With this tool you can use it as a backend for a static site generator like [grunt-html-builder](https://github.com/aaaristo/grunt-html-builder)
+
 ## Getting Started
 This plugin requires Grunt.
 
