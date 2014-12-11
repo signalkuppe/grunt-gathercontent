@@ -1,6 +1,6 @@
 # grunt-gathercontent
 
-> get content formt gathercontent
+> get content and files from [Gathercontent](https://gathercontent.com/)
 
 ## Getting Started
 This plugin requires Grunt.
@@ -19,24 +19,7 @@ grunt.loadNpmTasks('grunt-gathercontent');
 
 ## The "gathercontent" task
 
-### Overview
-In your project's Gruntfile, add a section named `gathercontent` to the data object passed into `grunt.initConfig()`.
-
-```js
-grunt.initConfig({
-  gathercontent: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-})
-```
-
 ### Options
-
 
 #### accountName
 Type: `String`
@@ -95,7 +78,8 @@ grunt.initConfig({
 
 ### To Do
 
-Transform data for easier manipulation
+- Transform data for easier manipulation
+- performance
 
 
 ## License
