@@ -9,7 +9,7 @@
     "url": "www.signalkuppe.com"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
     "gathercontent"
   ],
   "main": "Gruntfile.js",
