@@ -38,10 +38,6 @@ module.exports = function (grunt) {
           "Content-Type":"application/x-www-form-urlencoded"
         }
       },
-      _addFiles = function (file)
-      {
-        files.push(file)
-      },
       _decodePages = function (json)
       {
         _.map(json, function (obj)
@@ -81,7 +77,6 @@ module.exports = function (grunt) {
           {
             grunt.log.ok('Generated '+output);
           };
-          //
       };
 
   // get logged in user
@@ -125,6 +120,7 @@ module.exports = function (grunt) {
   });
 
   // group that API user belongs to
+
   grunt.registerTask('gathercontent-get_my_group', 'get group that API user belongs to', function () {
 
     var done= this.async(),
@@ -145,6 +141,7 @@ module.exports = function (grunt) {
   });
 
   // get all visible groups for given API key
+
   grunt.registerTask('gathercontent-get_groups', 'all visible groups for given API key', function () {
 
     var done= this.async(),
@@ -165,6 +162,7 @@ module.exports = function (grunt) {
   });
 
   // get all visible projects for given API key
+
   grunt.registerTask('gathercontent-get_projects', 'get all visible projects for given API key', function () {
 
     var done= this.async(),
@@ -252,7 +250,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('gathercontent-get_custom_states_by_project', 'get custom states by project', function () {
 
-
     var done= this.async(),
         json = '';
 
@@ -271,15 +268,14 @@ module.exports = function (grunt) {
   });
 
   // download files
+
   grunt.registerTask('gathercontent-downloadfiles', 'download files', function () {
       var done= this.async(),
           dest = config.fileDest; 
       if(config.downloadFiles)
       {
-
         if (!fs.existsSync(config.fileDest) && !config.pageDir)
             fs.mkdirSync(config.fileDest);
-          
         var i = 0;
         async.eachSeries(
           files,
