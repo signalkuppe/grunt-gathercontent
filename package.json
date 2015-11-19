@@ -1,6 +1,6 @@
 {
   "name": "grunt-gathercontent",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "get content from gathercontent.com",
   "repository": "",
   "author": {
@@ -26,9 +26,9 @@
     "load-grunt-tasks": "~0.3.0"
   },
   "dependencies": {
+    "async": "latest",
+    "mkdirp": "^0.5.0",
     "request": "latest",
-    "underscore":"latest",
-    "async":"latest",
-    "mkdirp": "^0.5.0"
+    "underscore": "latest"
   }
 }

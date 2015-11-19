@@ -6,8 +6,6 @@
  * Licensed under the MIT license.
  */
 
-
-
 var fs= require('fs'),
     request = require('request'),
     path= require('path'),
@@ -25,17 +23,18 @@ module.exports = function (grunt) {
         pageDir: true
       },
       config= _.extend(defaultOptions,grunt.config('gathercontent')),
-      apiUrl = 'https://'+config.accountName+'.gathercontent.com/api/0.3/',
+      apiUrl = 'https://'+config.accountName+'.gathercontent.com/api/0.4/',
       options =
       {
         method: "POST",
-        'auth': {
-          'user': config.apiKey,
-          'pass': 'x',
-          'sendImmediately': false
+        auth: {
+          user: config.apiKey,
+          pass: 'x',
+          sendImmediately : false
         },
         headers: {
-          "Content-Type":"application/x-www-form-urlencoded"
+          "Content-Type":"application/x-www-form-urlencoded",
+          "Content-Length": 0
         }
       },
       _decodePages = function (json)
@@ -79,6 +78,8 @@ module.exports = function (grunt) {
           };
       };
 
+
+
   // get logged in user
   grunt.registerTask('gathercontent-get_me', 'get logged in user', function () {
 
@@ -90,7 +91,7 @@ module.exports = function (grunt) {
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'logged_user.json');
             done();
         })
@@ -110,13 +111,14 @@ module.exports = function (grunt) {
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'users.json');
             done();
         })
         .on('error', function (e) {
               throw e;
         });
+
   });
 
   // group that API user belongs to
@@ -131,7 +133,7 @@ module.exports = function (grunt) {
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'group.json');
             done();
         })
@@ -152,7 +154,7 @@ module.exports = function (grunt) {
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'groups.json');
             done();
         })
@@ -173,7 +175,7 @@ module.exports = function (grunt) {
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'projects.json');
             done();
         })
@@ -188,13 +190,14 @@ module.exports = function (grunt) {
 
     var done= this.async(),
         json = '';
+        delete options.headers["Content-Length"];
 
-        request(_.extend(options,{uri:apiUrl+'get_project',form:{ id: config.projectId }}))
+        request(_.extend(options,{uri:apiUrl+'get_project',form: {id:config.projectId}}))
         .on('data', function (data)
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'project.json');
             done();
         })
@@ -209,13 +212,14 @@ module.exports = function (grunt) {
 
     var done= this.async(),
         json = '';
+        delete options.headers["Content-Length"];
 
         request(_.extend(options,{uri:apiUrl+'get_pages_by_project',form:{ id: config.projectId }}))
         .on('data', function (data)
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'pages.json');
             done();
         })
@@ -230,6 +234,7 @@ module.exports = function (grunt) {
 
     var done= this.async(),
         json = '';
+        delete options.headers["Content-Length"];
 
         request(_.extend(options,{uri:apiUrl+'get_files_by_project',form:{ id: config.projectId }}))
         .on('data', function (data)
@@ -252,13 +257,14 @@ module.exports = function (grunt) {
 
     var done= this.async(),
         json = '';
+        delete options.headers["Content-Length"];
 
         request(_.extend(options,{uri:apiUrl+'get_custom_states_by_project',form:{ id: config.projectId }}))
         .on('data', function (data)
         {
             json += data;
         })
-        .on('end', function (data) {
+        .on('end', function () {
             _writeJson(json,'states.json');
             done();
         })
