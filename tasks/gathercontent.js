@@ -277,20 +277,30 @@ module.exports = function (grunt) {
 
   grunt.registerTask('gathercontent-downloadfiles', 'download files', function () {
       var done= this.async(),
-          dest = config.fileDest; 
+          dest = config.fileDest;
+      var files = grunt.file.readJSON(config.jsonDest + "/files.json");
       if(config.downloadFiles)
       {
         if (!fs.existsSync(config.fileDest) && !config.pageDir)
             fs.mkdirSync(config.fileDest);
         var i = 0;
+        var completed = 0;
         async.eachSeries(
           files,
-          function (item,done)
+          function (item,cb)
           {
             grunt.log.write('Downloading',item.original_filename+'\n');
             var _requestFile = function (dest)
             {
-              request('https://gathercontent-production-uploads.s3.amazonaws.com/'+item.filename).pipe(fs.createWriteStream(dest+'/'+item.original_filename))
+                var file = fs.createWriteStream(dest+'/'+item.original_filename);
+                request('https://gathercontent-production-uploads.s3.amazonaws.com/'+item.filename, function(error, response, body){
+                        completed++;
+                    grunt.log.success('Downloaded '+item.original_filename);
+                    if(i === completed) {
+                        grunt.log.success('Completed Downloading '+completed+' files');
+                        done();
+                    }
+                }).pipe(file);
             }
             if(config.pageDir)
             {
@@ -305,12 +315,12 @@ module.exports = function (grunt) {
             else
             {
               _requestFile(dest);
-            }  
+            }
             i++;
-            done();
+            cb();
           },
           function (err){
-            grunt.log.success('Downloaded '+i+' files');
+                
           }
         );
       }
