@@ -290,7 +290,7 @@ module.exports = function (grunt) {
             grunt.log.write('Downloading',item.original_filename+'\n');
             var _requestFile = function (dest)
             {
-              request('https://gathercontent.s3.amazonaws.com/'+item.filename).pipe(fs.createWriteStream(dest+'/'+item.original_filename))
+              request('https://gathercontent-production-uploads.s3.amazonaws.com/'+item.filename).pipe(fs.createWriteStream(dest+'/'+item.original_filename))
             }
             if(config.pageDir)
             {
